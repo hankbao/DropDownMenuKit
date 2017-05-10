@@ -54,32 +54,28 @@ class ViewController: UIViewController, DropDownMenuDelegate {
 	func prepareNavigationBarMenu(_ currentChoice: String) {
 		navigationBarMenu = DropDownMenu(frame: view.bounds)
 		navigationBarMenu.delegate = self
-		
-		let firstCell = DropDownMenuCell()
-		
-		firstCell.textLabel!.text = "Large"
-		firstCell.menuAction = #selector(ViewController.choose(_:))
-		firstCell.menuTarget = self
-		if currentChoice == "Large" {
-			firstCell.accessoryType = .checkmark
-		}
-		
-		let secondCell = DropDownMenuCell()
-		
-		secondCell.textLabel!.text = "Small"
-		secondCell.menuAction = #selector(ViewController.choose(_:))
-		secondCell.menuTarget = self
-		if currentChoice == "Small" {
-			firstCell.accessoryType = .checkmark
-		}
 
-		navigationBarMenu.menuCells = [firstCell, secondCell]
-		navigationBarMenu.selectMenuCell(secondCell)
+        let texts = ["Large.0", "Small.0", "Large.1", "Small.1", "Large.2", "Small.2", "Large.3", "Small.3", "Large.4", "Small.4", "Large.5", "Small.5", "Large.6", "Small.6", "Large.7", "Small.7", "Large.8", "Small.8", "Large.9", "Small.9"]
+        let cells: [DropDownMenuCell] = texts.map {
+            let cell = DropDownMenuCell()
+
+            cell.textLabel!.text = $0
+            cell.menuAction = #selector(ViewController.choose(_:))
+            cell.menuTarget = self
+            if currentChoice == $0 {
+                cell.accessoryType = .checkmark
+            }
+
+            return cell
+        }
+
+        navigationBarMenu.menuCells = cells
+		navigationBarMenu.selectMenuCell(cells[1])
 		
 		// If we set the container to the controller view, the value must be set
 		// on the hidden content offset (not the visible one)
-		navigationBarMenu.visibleContentOffset =
-			navigationController!.navigationBar.frame.size.height + statusBarHeight()
+		navigationBarMenu.visibleContentInsetTop = navigationController!.navigationBar.frame.size.height + statusBarHeight()
+        navigationBarMenu.visibleContentInsetBottom = navigationController!.toolbar.frame.size.height
 
 		// For a simple gray overlay in background
 		navigationBarMenu.backgroundView = UIView(frame: navigationBarMenu.bounds)
@@ -114,6 +110,9 @@ class ViewController: UIViewController, DropDownMenuDelegate {
 		toolbarMenu.menuCells = [selectCell, sortCell]
 		toolbarMenu.direction = .up
 
+        toolbarMenu.visibleContentInsetTop = navigationController!.navigationBar.frame.size.height + statusBarHeight()
+        toolbarMenu.visibleContentInsetBottom = navigationController!.toolbar.frame.size.height
+
 		// For a simple gray overlay in background
 		toolbarMenu.backgroundView = UIView(frame: toolbarMenu.bounds)
 		toolbarMenu.backgroundView!.backgroundColor = UIColor.black
@@ -121,10 +120,8 @@ class ViewController: UIViewController, DropDownMenuDelegate {
 	}
 
 	func updateMenuContentOffsets() {
-		navigationBarMenu.visibleContentOffset =
-			navigationController!.navigationBar.frame.size.height + statusBarHeight()
-		toolbarMenu.visibleContentOffset =
-			navigationController!.toolbar.frame.size.height
+		navigationBarMenu.visibleContentInsetTop = navigationController!.navigationBar.frame.size.height + statusBarHeight()
+		toolbarMenu.visibleContentInsetBottom = navigationController!.toolbar.frame.size.height
 	}
 	
 	override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
@@ -181,8 +178,7 @@ class ViewController: UIViewController, DropDownMenuDelegate {
 	}
 }
 
-
 func statusBarHeight() -> CGFloat {
-	let statusBarSize = UIApplication.shared.statusBarFrame.size
-	return min(statusBarSize.width, statusBarSize.height)
+    let statusBarSize = UIApplication.shared.statusBarFrame.size
+    return min(statusBarSize.width, statusBarSize.height)
 }
