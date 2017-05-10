@@ -64,6 +64,7 @@ open class DropDownMenu : UIView, UITableViewDataSource, UITableViewDelegate, UI
 			setNeedsLayout()
 		}
 	}
+    open var hidesMenuOnSelect = false
 	// The background view to be faded out with the background alpha, when the 
 	// menu slides over it
 	open var backgroundView: UIView? {
@@ -259,5 +260,9 @@ open class DropDownMenu : UIView, UITableViewDataSource, UITableViewDelegate, UI
 		}
 
 		UIApplication.shared.sendAction(cell.menuAction, to: cell.menuTarget, from: cell, for: nil)
+
+        if hidesMenuOnSelect {
+            hide()
+        }
 	}
 }
