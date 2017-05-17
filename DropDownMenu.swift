@@ -17,7 +17,7 @@ public enum DropDownMenuRevealDirection {
 }
 
 
-open class DropDownMenu : UIView, UITableViewDataSource, UITableViewDelegate, UIGestureRecognizerDelegate {
+open class DropDownMenu : UIView, UIGestureRecognizerDelegate {
 
 	open weak var delegate: DropDownMenuDelegate?
 	open var container: UIView! {
@@ -57,14 +57,8 @@ open class DropDownMenu : UIView, UITableViewDataSource, UITableViewDelegate, UI
         }
     }
 	open var direction = DropDownMenuRevealDirection.down
-	open let menuView: UITableView
-	open var menuCells = [DropDownMenuCell]() {
-		didSet {
-			menuView.reloadData()
-			setNeedsLayout()
-		}
-	}
-    open var hidesMenuOnSelect = false
+	open let menuView: UIView
+
 	// The background view to be faded out with the background alpha, when the 
 	// menu slides over it
 	open var backgroundView: UIView? {
@@ -80,13 +74,12 @@ open class DropDownMenu : UIView, UITableViewDataSource, UITableViewDelegate, UI
 	
 	// MARK: - Initialization
 	
-	override public init(frame: CGRect) {
+    public init(frame: CGRect, menuView: UIView) {
 		contentView = UIView(frame: CGRect(origin: CGPoint.zero, size: frame.size))
 		contentView.autoresizingMask = [.flexibleWidth, .flexibleBottomMargin]
 		
-		menuView = UITableView(frame: CGRect(origin: CGPoint.zero, size: frame.size))
+		self.menuView = menuView
 		menuView.autoresizingMask = .flexibleWidth
-		menuView.alwaysBounceVertical = true
 
 		contentView.addSubview(menuView)
 
@@ -95,9 +88,6 @@ open class DropDownMenu : UIView, UITableViewDataSource, UITableViewDelegate, UI
 		let gesture = UITapGestureRecognizer(target: self, action: #selector(DropDownMenu.tap(_:)))
 		gesture.delegate = self
 		addGestureRecognizer(gesture)
-
-		menuView.dataSource = self
-		menuView.delegate = self
 
 		autoresizingMask = [.flexibleWidth, .flexibleHeight]
 		isHidden = true
@@ -125,25 +115,13 @@ open class DropDownMenu : UIView, UITableViewDataSource, UITableViewDelegate, UI
         let visibleHeight = container.bounds.height - visibleContentInsetTop - visibleContentInsetBottom
 
         backgroundView?.frame.size.height = visibleHeight
-		menuView.frame.size.height = min(menuView.contentSize.height, visibleHeight)
+		menuView.frame.size.height = min(menuContentSize.height, visibleHeight)
 		contentView.frame.size.height = menuView.frame.size.height
 	}
-	
-	// MARK: - Selection
-	
-	/// Selects the cell briefly and sends the cell menu action.
-	///
-	/// If DropDownMenuCell.showsCheckmark is true, then the cell is marked with
-	/// a checkmark and all other cells are unchecked.
-	open func selectMenuCell(_ cell: DropDownMenuCell) {
-		guard let index = menuCells.index(of: cell) else {
-			fatalError("The menu cell to select must belong to the menu")
-		}
-		let indexPath = IndexPath(row: index, section: 0)
 
-    	menuView.selectRow(at: indexPath, animated: false, scrollPosition: .none)
-		tableView(menuView, didSelectRowAt: indexPath)
-	}
+    open var menuContentSize: CGSize {
+        return menuView.systemLayoutSizeFitting(UILayoutFittingCompressedSize)
+    }
 
 	// MARK: - Actions
 	
@@ -225,44 +203,5 @@ open class DropDownMenu : UIView, UITableViewDataSource, UITableViewDelegate, UI
 				       completion: { (Bool) in
 			self.isHidden = true
 		})
-	}
-	
-	// MARK: - Table View
-	
-	open func numberOfSections(in tableView: UITableView) -> Int {
-		return 1
-	}
-
-	open func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-		return menuCells.count
-	}
-
-	open func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-		return menuCells[indexPath.row]
-	}
-	
-	open func tableView(_ tableView: UITableView, shouldHighlightRowAt indexPath: IndexPath) -> Bool {
-		return menuCells[indexPath.row].menuAction != nil
-	}
-
-	open func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-		let cell = menuCells[indexPath.row]
-		
-		for cell in menuCells {
-			cell.accessoryType = .none
-		}
-		cell.accessoryType = cell.showsCheckmark ? .checkmark : .none
-		
-		tableView.deselectRow(at: indexPath, animated: true)
-		
-		if cell.menuAction == nil {
-			return
-		}
-
-		UIApplication.shared.sendAction(cell.menuAction, to: cell.menuTarget, from: cell, for: nil)
-
-        if hidesMenuOnSelect {
-            hide()
-        }
 	}
 }
