@@ -11,8 +11,8 @@ import DropDownMenuKit
 class ViewController: UIViewController, DropDownMenuDelegate {
 
 	var titleView: DropDownTitleView!
-	@IBOutlet var navigationBarMenu: DropDownMenu!
-	@IBOutlet var toolbarMenu: DropDownMenu!
+	@IBOutlet var navigationBarMenu: DropDownTableMenu!
+	@IBOutlet var toolbarMenu: DropDownTableMenu!
 
 	override func viewDidLoad() {
 		super.viewDidLoad()
@@ -52,7 +52,7 @@ class ViewController: UIViewController, DropDownMenuDelegate {
 	}
 	
 	func prepareNavigationBarMenu(_ currentChoice: String) {
-		navigationBarMenu = DropDownMenu(frame: view.bounds)
+		navigationBarMenu = DropDownTableMenu(frame: view.bounds)
 		navigationBarMenu.delegate = self
 
         let texts = ["Large.0", "Small.0", "Large.1", "Small.1", "Large.2", "Small.2", "Large.3", "Small.3", "Large.4", "Small.4", "Large.5", "Small.5", "Large.6", "Small.6", "Large.7", "Small.7", "Large.8", "Small.8", "Large.9", "Small.9"]
@@ -84,7 +84,7 @@ class ViewController: UIViewController, DropDownMenuDelegate {
 	}
 
 	func prepareToolbarMenu() {
-		toolbarMenu = DropDownMenu(frame: view.bounds)
+		toolbarMenu = DropDownTableMenu(frame: view.bounds)
 		toolbarMenu.delegate = self
 		
 		let selectCell = DropDownMenuCell()
