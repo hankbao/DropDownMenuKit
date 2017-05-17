@@ -19,6 +19,7 @@
 		600E8CA71D5C938900AFD10E /* DropDownMenuCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 600E8CA51D5C935E00AFD10E /* DropDownMenuCell.swift */; };
 		60495BFF1D6C60FE0016987F /* DropDownMenuKit.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 600E8C921D5B76DD00AFD10E /* DropDownMenuKit.xcassets */; };
 		60495C001D6C61A70016987F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6009E2481D5119DF006424BD /* Assets.xcassets */; };
+		A58D3C351ECC4F4D00D79019 /* DropDownTableMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = A58D3C331ECC4D7300D79019 /* DropDownTableMenu.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -64,6 +65,7 @@
 		600E8CA21D5C7D1800AFD10E /* TODO.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = TODO.md; sourceTree = "<group>"; };
 		600E8CA51D5C935E00AFD10E /* DropDownMenuCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DropDownMenuCell.swift; sourceTree = "<group>"; };
 		606F9FD61DB24FCB0071C87A /* NEWS.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = NEWS.md; sourceTree = "<group>"; };
+		A58D3C331ECC4D7300D79019 /* DropDownTableMenu.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DropDownTableMenu.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -93,6 +95,7 @@
 				600E8CA21D5C7D1800AFD10E /* TODO.md */,
 				6009E27A1D522802006424BD /* LICENSE */,
 				6009E2401D511955006424BD /* DropDownMenu.swift */,
+				A58D3C331ECC4D7300D79019 /* DropDownTableMenu.swift */,
 				600E8CA51D5C935E00AFD10E /* DropDownMenuCell.swift */,
 				6009E2411D511955006424BD /* DropDownTitleView.swift */,
 				600E8C941D5B78B800AFD10E /* DropDownMenu.h */,
@@ -250,6 +253,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A58D3C351ECC4F4D00D79019 /* DropDownTableMenu.swift in Sources */,
 				600E8CA71D5C938900AFD10E /* DropDownMenuCell.swift in Sources */,
 				600E8C911D5B76AC00AFD10E /* DropDownTitleView.swift in Sources */,
 				600E8C901D5B76AA00AFD10E /* DropDownMenu.swift in Sources */,
