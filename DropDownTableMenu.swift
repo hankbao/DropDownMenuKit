@@ -38,7 +38,8 @@ open class DropDownTableMenu : DropDownMenu, UITableViewDataSource, UITableViewD
     // MARK: - Layout
 
     override open var menuContentSize: CGSize {
-        return menuTableView.contentSize
+        get { return menuTableView.contentSize }
+        set {}
     }
 
     // MARK: - Selection
