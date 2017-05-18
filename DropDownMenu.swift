@@ -16,7 +16,6 @@ public enum DropDownMenuRevealDirection {
 	case down
 }
 
-
 open class DropDownMenu : UIView, UIGestureRecognizerDelegate {
 
 	open weak var delegate: DropDownMenuDelegate?
@@ -58,6 +57,7 @@ open class DropDownMenu : UIView, UIGestureRecognizerDelegate {
     }
 	open var direction = DropDownMenuRevealDirection.down
 	open let menuView: UIView
+    open var menuContentSize: CGSize
 
 	// The background view to be faded out with the background alpha, when the 
 	// menu slides over it
@@ -80,6 +80,10 @@ open class DropDownMenu : UIView, UIGestureRecognizerDelegate {
 		
 		self.menuView = menuView
 		menuView.autoresizingMask = .flexibleWidth
+
+        var size = frame.size
+        size.height = menuView.bounds.height
+        menuContentSize = size
 
 		contentView.addSubview(menuView)
 
@@ -118,10 +122,6 @@ open class DropDownMenu : UIView, UIGestureRecognizerDelegate {
 		menuView.frame.size.height = min(menuContentSize.height, visibleHeight)
 		contentView.frame.size.height = menuView.frame.size.height
 	}
-
-    open var menuContentSize: CGSize {
-        return menuView.systemLayoutSizeFitting(UILayoutFittingCompressedSize)
-    }
 
 	// MARK: - Actions
 	
